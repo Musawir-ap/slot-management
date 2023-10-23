@@ -1,0 +1,21 @@
+{% extends "slot/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div>
+        <form method="POST" action>
+            {% csrf_token %}
+            <fieldset>
+                <legend>Register Now</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div>
+                <button type="submit">Register</button>
+            </div>
+        </form>
+        <div>
+            <small>
+                Already have an account? <a href={% url 'login' %}>Login</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends "slot/base.html" %}
+{% block content %}
+    <h2>logged out :(</h2>
+    <div>
+        <small>
+            <a href={% url 'login' %}>Login</a> again
+        </small>
+    </div>
+{% endblock content %}
