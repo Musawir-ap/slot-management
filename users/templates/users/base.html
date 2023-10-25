@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--[if lt tml class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div style="height: 50px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;">
+
+            {% if user.is_authenticated %}
+                <p>{{ user.username }}</a></p>
+                {% comment %} <img style="margin-left: 10px;"src="{{ user.profile.image.url }}" width="40" height="40"> {% endcomment %}
+            {% else %}
+                <a href={% url 'register' %}> register</a> __ 
+                <a href={% url 'login' %}> login</a>
+            {% endif %}
+        </div>
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div>{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+            <br>
+            <br>
+            <br>
+            <br>
+            <div>
+                <a style="margin-right: 10px;" href={% url 'home' %}>Home</a>
+                {% if user.is_authenticated %}
+                    {% comment %} <a style="margin-right: 10px;" href={% url 'slot-create' %}> New-slot</a> {% endcomment %}
+                    <a style="margin-right: 10px;" href={% url 'logout' %}> logout</a>
+                    {% comment %} <a style="margin-right: 10px;" href={% url 'profile' %}> profile</a> {% endcomment %}
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

@@ -35,6 +35,9 @@ from django.http import HttpResponseNotFound
 
 
 class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'role')
+    list_filter = ('role',)
+
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
 
@@ -42,19 +45,10 @@ class CustomUserAdmin(admin.ModelAdmin):
             # If you are editing an existing object, modify the form
             form.base_fields['sub_roles'].queryset = SubRole.objects.filter(main_role=obj.role)
             form.base_fields['sub_roles'].widget = CheckboxSelectMultiple()
+            form.base_fields['sub_roles'].required = False
 
         return form
     
-    # def change_view(self, request, object_id, form_url='', extra_context=None):
-    #     try:
-    #         object = super().get_object(request, object_id)
-    #     except ObjectDoesNotExist:
-    #         return HttpResponseNotFound()
-
-    #     form = super().change_view(request, str(object.id), form_url, extra_context)
-    #     form.fields['sub_roles'].queryset = SubRole.objects.filter(main_role=object.role)
-    #     form.fields['sub_roles'].widget = CheckboxSelectMultiple()
-    #     return form
     def change_view(self, request, object_id, form_url='', extra_context=None):
         try:
             object = super().get_object(request, object_id)
@@ -65,6 +59,6 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 admin.site.register(SubRole, SubRoleAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
-# admin.site.register(SubRole)
-# admin.site.register(Role)
+
+
 

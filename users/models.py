@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
+from django.core.validators import RegexValidator
+from PIL import Image
+import uuid
 
 
 # Create your models here.
@@ -59,7 +62,7 @@ class CustomUserManager(UserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 class CustomUser(AbstractUser):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE) 
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, editable=False) 
     sub_roles = models.ManyToManyField(SubRole)
     
     # USERNAME_FIELD = 'email'
@@ -70,5 +73,39 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
     
-    # class Meta(AbstractUser.Meta):
-    #     swappable = "AUTH_USER_MODEL"
+    def save(self, *args, **kwargs):
+        if self.role == 'ADMIN':
+            self.is_staff = True
+            self.is_superuser = True
+        elif self.role == 'STAFF':
+            self.is_staff = True
+            self.is_superuser = False
+
+        super().save(*args, **kwargs)
+    
+
+class BaseProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    birth_date = models.DateField(null=True, blank=True)
+    address = models.TextField(max_length=250, null=True, blank=True)
+    pincode = models.IntegerField(null=True, blank=True)
+    mobile_number = models.CharField(null=True, max_length=15, validators=[RegexValidator(regex='^\+?1?\d{9,15}$', message='enter valid mobile number')])
+    date_joined = models.DateField(auto_now_add=True)
+
+    
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+    def save(self, *args, **kwargs):
+        super(BaseProfile, self).save(*args, **kwargs)
+        
+        img = Image.open(self.image.path)
+        if img.width > 200:
+            output_size = (200, 200)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
+        
+    # class Meta:
+    #     abstract = True
