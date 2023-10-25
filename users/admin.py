@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, SubRole, Role
 from django.forms import CheckboxSelectMultiple
 
@@ -34,9 +35,24 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
 
 
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'role')
-    list_filter = ('role',)
+# class CustomUserAdmin(UserAdmin):
+#     list_display = ('username', 'email', 'role')
+#     list_filter = ('role',)
+    
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+
+    # Define your custom fields and configurations here
+    list_display = ('username', 'email', 'first_name', 'role', 'is_staff')
+    # list_filter = ('role',)
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'sub_roles')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
+
+# admin.site.register(CustomUser, CustomUserAdmin)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -49,13 +65,13 @@ class CustomUserAdmin(admin.ModelAdmin):
 
         return form
     
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        try:
-            object = super().get_object(request, object_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound()
+    # def change_view(self, request, object_id, form_url='', extra_context=None):
+    #     try:
+    #         object = super().get_object(request, object_id)
+    #     except ObjectDoesNotExist:
+    #         return HttpResponseNotFound()
 
-        return super().change_view(request, object_id, form_url, extra_context)
+    #     return super().change_view(request, object_id, form_url, extra_context)
 
 admin.site.register(SubRole, SubRoleAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)

@@ -62,8 +62,8 @@ class CustomUserManager(UserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 class CustomUser(AbstractUser):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, editable=False) 
-    sub_roles = models.ManyToManyField(SubRole)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE) #, editable=False
+    sub_roles = models.ManyToManyField(SubRole, blank=True)
     
     # USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['email', 'password']
@@ -74,12 +74,10 @@ class CustomUser(AbstractUser):
         return self.username
     
     def save(self, *args, **kwargs):
-        if self.role == 'ADMIN':
+        if self.role.name == 'ADMIN':
+            self.is_staff = self.is_superuser = True
+        elif self.role.name == 'STAFF':
             self.is_staff = True
-            self.is_superuser = True
-        elif self.role == 'STAFF':
-            self.is_staff = True
-            self.is_superuser = False
 
         super().save(*args, **kwargs)
     
