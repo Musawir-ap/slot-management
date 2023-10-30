@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class SlotConfig(AppConfig):
+class TokenappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'slot'
+    name = 'tokenapp'

@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, SubRole, Role
 from django.forms import CheckboxSelectMultiple
+from .forms import UserCreationAdimForm
+
 
 class SubRoleInline(admin.TabularInline):
     model = SubRole
@@ -30,48 +32,46 @@ class SubRoleAdmin(admin.ModelAdmin):
             
         obj.save()
         
-        
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseNotFound
-
-
-# class CustomUserAdmin(UserAdmin):
-#     list_display = ('username', 'email', 'role')
-#     list_filter = ('role',)
     
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-
-    # Define your custom fields and configurations here
-    list_display = ('username', 'email', 'first_name', 'role', 'is_staff')
+    # add_form = UserCreationAdimForm
+    
+    list_display = ('username', 'email', 'first_name', 'role', 'is_active')
     # list_filter = ('role',)
+    readonly_fields = ('date_joined', 'last_login')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'sub_roles')}),
+        ('Personal info', {'fields': ('role','first_name', 'last_name', 'email', 'sub_roles')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
-
-# admin.site.register(CustomUser, CustomUserAdmin)
+    
+    add_fieldsets = (
+            (
+                None,
+                {
+                    'classes': ('wide',),
+                    'fields': ('username', 'password1', 'password2', 'role'),
+                },
+            ),
+        )
+    
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
 
         if obj:
-            # If you are editing an existing object, modify the form
             form.base_fields['sub_roles'].queryset = SubRole.objects.filter(main_role=obj.role)
             form.base_fields['sub_roles'].widget = CheckboxSelectMultiple()
             form.base_fields['sub_roles'].required = False
 
         return form
     
-    # def change_view(self, request, object_id, form_url='', extra_context=None):
-    #     try:
-    #         object = super().get_object(request, object_id)
-    #     except ObjectDoesNotExist:
-    #         return HttpResponseNotFound()
-
-    #     return super().change_view(request, object_id, form_url, extra_context)
+    # formfield_overrides = {
+    #     models.ManyToManyField: {'widget': CheckboxSelectMultiple},
+    # }
+    
 
 admin.site.register(SubRole, SubRoleAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)

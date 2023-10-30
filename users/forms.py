@@ -26,7 +26,11 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username', 'email']
         
         
-# class ProfileUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         fields = ['image']
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
+
+class UserCreationAdimForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = UserCreationForm.Meta.fields + ('role', )

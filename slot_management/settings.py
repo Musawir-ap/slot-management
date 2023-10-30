@@ -32,10 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tokenapp',
     'users',
     'client',
     'staff',
-    'slot',
     'crispy_forms',
     'crispy_bootstrap4',
     'bootstrap4',

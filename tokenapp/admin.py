@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Purpose
+from .models import Purpose, Token
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -7,6 +7,7 @@ from django.urls import reverse
 
 class PurposeAdmin(admin.ModelAdmin):
     list_display = ('name', 'code')
+    fields = ('name', 'code')
     
     def response_change(self, request, obj):
         if obj.is_default:
@@ -39,3 +40,9 @@ class PurposeAdmin(admin.ModelAdmin):
     actions = [custom_delete_action]
     
 admin.site.register(Purpose, PurposeAdmin)
+
+
+class TokenAdmin(admin.ModelAdmin):
+    list_display = ('id', 'token_date', 'token_time', 'purpose', 'is_completed')
+    
+admin.site.register(Token, TokenAdmin)
