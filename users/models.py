@@ -83,7 +83,7 @@ class CustomUser(AbstractUser):
     
 
 class BaseProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, editable=False)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     birth_date = models.DateField(null=True, blank=True)
     address = models.TextField(max_length=250, null=True, blank=True)

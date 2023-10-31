@@ -1,0 +1,234 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'client/output.css' %}"> <!-- Include your Tailwind CSS styles -->
+    <link rel="stylesheet" href="{% static 'client/custom.css' %}"> <!-- Include your Tailwind CSS styles -->
+    <title>Reserve.</title>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+<style>
+@import url(https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css);
+/*
+module.exports = {
+    plugins: [
+        require('tailwindcss-inset')({
+            insets: {
+                full: '100%'
+            }
+        })
+    ]
+};
+*/
+.inset-l-full {
+    left: 100%;
+}
+</style>
+<div class=" text-sm  min-w-screen max-h-fit bg-gray-200 px-5 pt-5">
+    <div class="py-3 px-5 bg-white rounded ">
+        <div class="-mx-1 flex">
+            <ul class="flex w-full flex-wrap items-center h-10">
+                {% comment %} <li class="block relative" x-data="{showChildren:false}" @click.away="showChildren=false">
+                    <a href="#" class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 bg-indigo-500 text-white" @click.prevent="showChildren=!showChildren">
+                        <span class="mr-3 text-xl"> <i class="mdi mdi-gauge"></i> </span>
+                        <span>Dashboard</span>
+                        <span class="ml-2"> <i class="mdi mdi-chevron-down"></i> </span>
+                    </a>
+                    <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute top-auto left-0 min-w-full w-56 z-30 mt-1" x-show="showChildren" style="display: none;" x-transition:enter="transition ease duration-300 transform" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease duration-300 transform" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4">
+                        <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -mt-1 ml-6"></span>
+                        <div class="bg-white rounded w-full relative z-10 py-1">
+                            <ul class="list-reset">
+                                <li class="relative" x-data="{showChildren:false}" @mouseleave="showChildren=false" @mouseenter="showChildren=true">
+                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Dashboard 1</span> </a>
+                                </li>
+                                <li class="relative" x-data="{showChildren:false}" @mouseleave="showChildren=false" @mouseenter="showChildren=true">
+                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Dashboard 2</span> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li> {% endcomment %}
+                <li class="">
+                    <a href="#" class="flex w-fit  rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100">
+                        <svg viewBox="0 0 126 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="95" >
+                            <path d="M0.104004 0.960938H8.11133C9.78646 0.960938 11.2244 1.21322 12.4253 1.71777C13.6261 2.22233 14.5495 2.96908 15.1953 3.95801C15.8411 4.94694 16.1641 6.16292 16.1641 7.60596C16.1641 8.74626 15.9622 9.73519 15.5586 10.5728C15.1549 11.4103 14.5848 12.1117 13.8481 12.6768C13.1216 13.2419 12.2638 13.6859 11.2749 14.0088L9.97314 14.6748H2.9043L2.87402 11.3901H8.15674C9.01449 11.3901 9.72591 11.2388 10.291 10.936C10.8561 10.6333 11.2799 10.2145 11.5625 9.67969C11.8551 9.14486 12.0015 8.53434 12.0015 7.84814C12.0015 7.11149 11.8602 6.47575 11.5776 5.94092C11.2951 5.396 10.8662 4.97721 10.291 4.68457C9.71582 4.39193 8.98926 4.24561 8.11133 4.24561H4.2666V23H0.104004V0.960938ZM12.5464 23L7.44531 13.1309L11.8501 13.1157L17.0117 22.7881V23H12.5464ZM26.8657 23.3027C25.6245 23.3027 24.5094 23.1009 23.5205 22.6973C22.5316 22.2936 21.689 21.7336 20.9927 21.0171C20.3065 20.2905 19.7767 19.4479 19.4033 18.4893C19.04 17.5205 18.8584 16.4811 18.8584 15.3711V14.7656C18.8584 13.5042 19.04 12.3589 19.4033 11.3296C19.7666 10.2902 20.2812 9.39714 20.9473 8.65039C21.6133 7.90365 22.4105 7.32845 23.3389 6.9248C24.2673 6.52116 25.2915 6.31934 26.4116 6.31934C27.5721 6.31934 28.5964 6.51611 29.4844 6.90967C30.3724 7.29313 31.1141 7.83805 31.7095 8.54443C32.3049 9.25081 32.7539 10.0985 33.0566 11.0874C33.3594 12.0662 33.5107 13.151 33.5107 14.3418V16.022H20.6748V13.2671H29.5752V12.9644C29.555 12.3286 29.4339 11.7484 29.2119 11.2236C28.9899 10.6888 28.6468 10.265 28.1826 9.95215C27.7184 9.62923 27.118 9.46777 26.3813 9.46777C25.786 9.46777 25.2663 9.59896 24.8223 9.86133C24.3883 10.1136 24.0251 10.4769 23.7324 10.9512C23.4499 11.4154 23.238 11.9704 23.0967 12.6162C22.9554 13.262 22.8848 13.9785 22.8848 14.7656V15.3711C22.8848 16.0573 22.9756 16.693 23.1572 17.2783C23.349 17.8636 23.6265 18.3732 23.9897 18.8071C24.3631 19.231 24.8071 19.564 25.3218 19.8062C25.8465 20.0382 26.4419 20.1543 27.1079 20.1543C27.9455 20.1543 28.7023 19.9928 29.3784 19.6699C30.0646 19.3369 30.66 18.8475 31.1646 18.2017L33.1777 20.2905C32.8346 20.7951 32.3704 21.2795 31.7852 21.7437C31.21 22.2078 30.5137 22.5863 29.6963 22.8789C28.8789 23.1615 27.9354 23.3027 26.8657 23.3027ZM45.1963 18.5195C45.1963 18.1764 45.1055 17.8687 44.9238 17.5962C44.7422 17.3237 44.3991 17.0765 43.8945 16.8545C43.4001 16.6224 42.6735 16.4054 41.7148 16.2036C40.8672 16.022 40.0851 15.7949 39.3687 15.5225C38.6522 15.25 38.0366 14.922 37.522 14.5386C37.0073 14.145 36.6037 13.6859 36.311 13.1611C36.0285 12.6263 35.8872 12.0107 35.8872 11.3145C35.8872 10.6383 36.0335 10.0026 36.3262 9.40723C36.6188 8.80176 37.0426 8.27197 37.5977 7.81787C38.1527 7.35368 38.8288 6.9904 39.626 6.72803C40.4232 6.45557 41.3213 6.31934 42.3203 6.31934C43.7129 6.31934 44.9087 6.54639 45.9077 7.00049C46.9168 7.45459 47.6888 8.08024 48.2236 8.87744C48.7585 9.66455 49.0259 10.5526 49.0259 11.5415H45.0298C45.0298 11.1076 44.9289 10.714 44.7271 10.3608C44.5353 10.0076 44.2376 9.7251 43.834 9.51318C43.4303 9.29118 42.9207 9.18018 42.3052 9.18018C41.7502 9.18018 41.2809 9.271 40.8975 9.45264C40.5241 9.63428 40.2415 9.87142 40.0498 10.1641C39.8581 10.4567 39.7622 10.7796 39.7622 11.1328C39.7622 11.3952 39.8127 11.6323 39.9136 11.8442C40.0246 12.0461 40.2012 12.2327 40.4434 12.4043C40.6855 12.5758 41.0135 12.7323 41.4272 12.8735C41.8511 13.0148 42.3708 13.151 42.9863 13.2822C44.2074 13.5244 45.272 13.8473 46.1802 14.251C47.0985 14.6445 47.8149 15.1693 48.3296 15.8252C48.8442 16.4811 49.1016 17.3187 49.1016 18.3379C49.1016 19.0645 48.9451 19.7305 48.6323 20.3359C48.3195 20.9313 47.8654 21.451 47.27 21.895C46.6746 22.339 45.9632 22.6872 45.1357 22.9395C44.3083 23.1816 43.3748 23.3027 42.3354 23.3027C40.8319 23.3027 39.5604 23.0353 38.521 22.5005C37.4816 21.9556 36.6945 21.2694 36.1597 20.4419C35.6248 19.6043 35.3574 18.7365 35.3574 17.8384H39.187C39.2173 18.4741 39.3888 18.9837 39.7017 19.3672C40.0145 19.7507 40.408 20.0282 40.8823 20.1997C41.3667 20.3612 41.8763 20.4419 42.4111 20.4419C43.0166 20.4419 43.5262 20.3612 43.9399 20.1997C44.3537 20.0282 44.6665 19.8011 44.8784 19.5186C45.0903 19.2259 45.1963 18.8929 45.1963 18.5195ZM59.5005 23.3027C58.2593 23.3027 57.1442 23.1009 56.1553 22.6973C55.1663 22.2936 54.3237 21.7336 53.6274 21.0171C52.9412 20.2905 52.4115 19.4479 52.0381 18.4893C51.6748 17.5205 51.4932 16.4811 51.4932 15.3711V14.7656C51.4932 13.5042 51.6748 12.3589 52.0381 11.3296C52.4014 10.2902 52.916 9.39714 53.582 8.65039C54.248 7.90365 55.0452 7.32845 55.9736 6.9248C56.902 6.52116 57.9263 6.31934 59.0464 6.31934C60.2069 6.31934 61.2311 6.51611 62.1191 6.90967C63.0072 7.29313 63.7489 7.83805 64.3442 8.54443C64.9396 9.25081 65.3887 10.0985 65.6914 11.0874C65.9941 12.0662 66.1455 13.151 66.1455 14.3418V16.022H53.3096V13.2671H62.21V12.9644C62.1898 12.3286 62.0687 11.7484 61.8467 11.2236C61.6247 10.6888 61.2816 10.265 60.8174 9.95215C60.3532 9.62923 59.7528 9.46777 59.0161 9.46777C58.4207 9.46777 57.901 9.59896 57.457 9.86133C57.0231 10.1136 56.6598 10.4769 56.3672 10.9512C56.0846 11.4154 55.8727 11.9704 55.7314 12.6162C55.5902 13.262 55.5195 13.9785 55.5195 14.7656V15.3711C55.5195 16.0573 55.6104 16.693 55.792 17.2783C55.9837 17.8636 56.2612 18.3732 56.6245 18.8071C56.9979 19.231 57.4419 19.564 57.9565 19.8062C58.4813 20.0382 59.0767 20.1543 59.7427 20.1543C60.5802 20.1543 61.3371 19.9928 62.0132 19.6699C62.6994 19.3369 63.2948 18.8475 63.7993 18.2017L65.8125 20.2905C65.4694 20.7951 65.0052 21.2795 64.4199 21.7437C63.8447 22.2078 63.1484 22.5863 62.3311 22.8789C61.5137 23.1615 60.5701 23.3027 59.5005 23.3027ZM72.8208 9.96729V23H68.8247V6.62207H72.6089L72.8208 9.96729ZM77.8008 6.51611L77.7402 10.2397C77.5182 10.1994 77.266 10.1691 76.9834 10.1489C76.7109 10.1287 76.4536 10.1187 76.2114 10.1187C75.5959 10.1187 75.056 10.2044 74.5918 10.376C74.1276 10.5374 73.7391 10.7746 73.4263 11.0874C73.1235 11.4002 72.8914 11.7837 72.73 12.2378C72.5685 12.6818 72.4777 13.1864 72.4575 13.7515L71.5947 13.6455C71.5947 12.6061 71.7007 11.6424 71.9126 10.7544C72.1245 9.86637 72.4323 9.08936 72.8359 8.42334C73.2396 7.75732 73.7441 7.24268 74.3496 6.87939C74.9652 6.50602 75.6715 6.31934 76.4688 6.31934C76.6908 6.31934 76.9279 6.33952 77.1802 6.37988C77.4425 6.41016 77.6494 6.45557 77.8008 6.51611ZM85.7021 19.9727L89.5166 6.62207H93.6943L88.0786 23H85.5356L85.7021 19.9727ZM82.917 6.62207L86.7769 20.0029L86.9131 23H84.355L78.7241 6.62207H82.917ZM102.943 23.3027C101.702 23.3027 100.587 23.1009 99.5977 22.6973C98.6087 22.2936 97.7661 21.7336 97.0698 21.0171C96.3836 20.2905 95.8538 19.4479 95.4805 18.4893C95.1172 17.5205 94.9355 16.4811 94.9355 15.3711V14.7656C94.9355 13.5042 95.1172 12.3589 95.4805 11.3296C95.8438 10.2902 96.3584 9.39714 97.0244 8.65039C97.6904 7.90365 98.4876 7.32845 99.416 6.9248C100.344 6.52116 101.369 6.31934 102.489 6.31934C103.649 6.31934 104.674 6.51611 105.562 6.90967C106.45 7.29313 107.191 7.83805 107.787 8.54443C108.382 9.25081 108.831 10.0985 109.134 11.0874C109.437 12.0662 109.588 13.151 109.588 14.3418V16.022H96.752V13.2671H105.652V12.9644C105.632 12.3286 105.511 11.7484 105.289 11.2236C105.067 10.6888 104.724 10.265 104.26 9.95215C103.796 9.62923 103.195 9.46777 102.458 9.46777C101.863 9.46777 101.343 9.59896 100.899 9.86133C100.465 10.1136 100.102 10.4769 99.8096 10.9512C99.527 11.4154 99.3151 11.9704 99.1738 12.6162C99.0326 13.262 98.9619 13.9785 98.9619 14.7656V15.3711C98.9619 16.0573 99.0527 16.693 99.2344 17.2783C99.4261 17.8636 99.7036 18.3732 100.067 18.8071C100.44 19.231 100.884 19.564 101.399 19.8062C101.924 20.0382 102.519 20.1543 103.185 20.1543C104.023 20.1543 104.779 19.9928 105.456 19.6699C106.142 19.3369 106.737 18.8475 107.242 18.2017L109.255 20.2905C108.912 20.7951 108.448 21.2795 107.862 21.7437C107.287 22.2078 106.591 22.5863 105.773 22.8789C104.956 23.1615 104.013 23.3027 102.943 23.3027Z" fill="#212526"/>
+                            <path d="M114.909 18.5908C114.909 17.2236 115.376 16.0729 116.311 15.1387C117.245 14.2044 118.509 13.7373 120.104 13.7373C121.7 13.7373 122.964 14.2044 123.898 15.1387C124.833 16.0729 125.3 17.2236 125.3 18.5908C125.3 19.9352 124.833 21.0745 123.898 22.0088C122.964 22.9202 121.7 23.376 120.104 23.376C118.509 23.376 117.245 22.9202 116.311 22.0088C115.376 21.0745 114.909 19.9352 114.909 18.5908Z" fill="#FEEB3F"/>
+                            </svg>
+                    </a>    
+                </li>
+                <li class="block relative">
+                    <a href="#" class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100">
+                        <span class="mr-3 text-xl"> <i class="mdi mdi-widgets-outline"></i> </span>
+                        <span>Widgets</span>
+                    </a>
+                </li>
+                
+                <li class="block relative" x-data="{showChildren:false}" @click.away="showChildren=false">
+                    <a href="#" class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100" @click.prevent="showChildren=!showChildren">
+                        <span class="mr-3 text-xl"> <i class="mdi mdi-web"></i> </span>
+                        <span>Pages</span>
+                        <span class="ml-2"> <i class="mdi mdi-chevron-down"></i> </span>
+                    </a>
+                    <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute top-auto left-0 min-w-full w-56 z-30 mt-1" x-show="showChildren" x-transition:enter="transition ease duration-300 transform" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease duration-300 transform" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4" style="display: none;">
+                        <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -mt-1 ml-6"></span>
+                        <div class="bg-white rounded w-full relative z-10 py-1">
+                            <ul class="list-reset">
+                                <li class="relative" x-data="{showChildren:false}" @mouseleave="showChildren=false" @mouseenter="showChildren=true">
+                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">User Profile</span> </a>
+                                </li>
+                                <li class="relative" x-data="{showChildren:false}" @mouseleave="showChildren=false" @mouseenter="showChildren=true">
+                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Account Settings</span> </a>
+                                </li>
+                                <li class="relative" x-data="{showChildren:false}" @mouseleave="showChildren=false" @mouseenter="showChildren=true">
+                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Invoice</span> </a>
+                                </li>
+                                <li class="relative" x-data="{showChildren:false}" @mouseleave="showChildren=false" @mouseenter="showChildren=true">
+                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer">
+                                        <span class="flex-1">Authentication</span>
+                                        <span class="ml-2"> <i class="mdi mdi-chevron-right"></i> </span>
+                                    </a>
+                                    <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute inset-l-full top-0 min-w-full w-56 z-30 mt-1" x-show="showChildren" x-transition:enter="transition ease duration-300 transform" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease duration-300 transform" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4" style="display: none;">
+                                        <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -ml-1 mt-2"></span>
+                                        <div class="bg-white rounded w-full relative z-10 py-1">
+                                            <ul class="list-reset">
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Login</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Register</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Reset Password</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Lock Screen</span> </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="relative" x-data="{showChildren:false}" @mouseleave="showChildren=false" @mouseenter="showChildren=true">
+                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer">
+                                        <span class="flex-1">Errors</span>
+                                        <span class="ml-2"> <i class="mdi mdi-chevron-right"></i> </span>
+                                    </a>
+                                    <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute inset-l-full top-0 min-w-full w-56 z-30 mt-1" x-show="showChildren" x-transition:enter="transition ease duration-300 transform" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease duration-300 transform" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4" style="display: none;">
+                                        <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -ml-1 mt-2"></span>
+                                        <div class="bg-white rounded w-full relative z-10 py-1">
+                                            <ul class="list-reset">
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">400</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">404</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">500</span> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">505</span> </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                
+            </ul>
+            <div class="flex items-center justify-end mt-3">
+                {% if user.is_authenticated %}
+                    <a class="cursor-pointer">{{ user.username }}</a>
+                    <img src="{{ user.baseprofile.image.url }}" alt="Your Name" class="cursor-pointer w-6 h-6 ml-2 rounded-full">
+                {% else %}  
+                    <a href="#" class="text-indigo-500 hover:text-indigo-700 text-sm px-4 py-2 rounded-full hover:bg-indigo-100 transition-colors duration-100 mr-3">Register</a>
+                    <a href="#" class="text-indigo-500 hover:text-indigo-700 text-sm px-4 py-2 rounded-full hover:bg-indigo-100 transition-colors duration-100">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="min-w-screen min-h-screen bg-gray-200 pt-5 pb-5 px-6 ">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="pb-5 px-5 text-sm justify-center align-middle bg-green-400 rounded">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+</div>
+
+
+{% comment %} footer  {% endcomment %}
+<!-- component -->
+<!-- Foooter -->
+<section class="bg-white">
+    <div class="max-w-screen-xl px-4 py-6 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
+        <nav class="flex flex-wrap justify-center -mx-5 -my-2">
+            <div class="px-5 py-2">
+                <a href="#" class="text-sm leading-6 text-gray-500 hover:text-gray-900">
+                    Home
+                </a>
+            </div>
+            <div class="px-5 py-2">
+                <a href="#" class="text-sm leading-6 text-gray-500 hover:text-gray-900">
+                    About
+                </a>
+            </div>
+            <div class="px-5 py-2">
+                <a href="#" class="text-sm leading-6 text-gray-500 hover:text-gray-900">
+                    Source Code
+                </a>
+            </div>
+            <div class="px-5 py-2">
+                <a href="#" class="text-sm leading-6 text-gray-500 hover:text-gray-900">
+                    Contact
+                </a>
+            </div>
+        </nav>
+        <div class="flex justify-center mt-5 space-x-6">
+            <a href="#" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Facebook</span>
+                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Instagram</span>
+                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Twitter</span>
+                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">GitHub</span>
+                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Linked in</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 50 50">
+                    <path fill-rule="evenodd" d="M41,4H9C6.24,4,4,6.24,4,9v32c0,2.76,2.24,5,5,5h32c2.76,0,5-2.24,5-5V9C46,6.24,43.76,4,41,4z M17,20v19h-6V20H17z M11,14.47c0-1.4,1.2-2.47,3-2.47s2.93,1.07,3,2.47c0,1.4-1.12,2.53-3,2.53C12.2,17,11,15.87,11,14.47z M39,39h-6c0,0,0-9.26,0-10 c0-2-1-4-3.5-4.04h-0.08C27,24.96,26,27.02,26,29c0,0.91,0,10,0,10h-6V20h6v2.56c0,0,1.93-2.56,5.81-2.56 c3.97,0,7.19,2.73,7.19,8.26V39z" clip-rule="evenodd"></path>
+                </svg> 
+            </a>
+        </div>
+        <p class="mt-5 text-sm leading-6 text-center text-gray-400">
+            © 2023 dev.musawir All rights reserved.
+        </p>
+    </div>
+</section>
+</body>
+</html>

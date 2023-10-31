@@ -1,0 +1,7 @@
+{% extends "client/base.html" %}
+{% block content %}
+<h1 class="text-xl ">My Tokens</h1>
+{% for token in tokens %}
+    <li class="text-sm text-slate-900">{{token}}</li>
+{% endfor %}
+{% endblock content %}

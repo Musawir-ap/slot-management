@@ -14,7 +14,7 @@ from django.views.generic import (
 
 class TokenListView(ListView):
     model = Token
-    # template_name = 'Token/home.html'  
+    template_name = 'client/home.html'  
     context_object_name = 'tokens'
     ordering = ['token_time']
     paginate_by = 10

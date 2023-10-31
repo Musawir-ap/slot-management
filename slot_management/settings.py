@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'client',
     'staff',
     'crispy_forms',
+    'tailwind',
     'crispy_bootstrap4',
     'bootstrap4',
     'django.contrib.admin',
@@ -141,6 +142,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'client/static'),
+    # os.path.join(BASE_DIR, 'app2/static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -155,7 +160,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'client:client-token-home'
 LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
