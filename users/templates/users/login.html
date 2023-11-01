@@ -1,17 +1,46 @@
 {% extends "client/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="flex md:w-1/2  justify-center py-6 items-center">
-        <form method="POST" class="  w-fit px-5 py-6">
+
+    <div class="flex items-center justify-center">
+        <div class="flex max-w-fit flex-col items-center justify-center  bg-white rounded-2xl px-6 py-6 outline outline-1 md:w-fit">
+          <h1 class="w-fit text-xl font-medium text-gray-800">Welcome Back :)</h1>
+          <p class="text-sm font-normal text-gray-600 mb-2">Login with your credentials </p>
+          <!-- <h1>Login</h1> -->
+          <form method="POST" class="w-fit px-5 py-2 mt-1 space-y-3">
             {% csrf_token %}
-            <fieldset class="">
-                <legend class="text-gray-800 font-bold text-2xl mb-1">Login :)</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div>
-                <button type="submit" class="block w-fit bg-indigo-600 mt-4 py-2 rounded-2xl text-gray-800 font-semibold mb-2r">Login</button>
-				<span class="text-sm  hover:text-blue-500 cursor-pointer">Forgot Password ?</span>
+            
+            {% comment %} <span class="max-w-10 font-light text-sm">{{ form.non_field_errors }}</span> {% endcomment %}
+            <div class="max-w-md"> <!-- Set the maximum width here -->
+                <span class="font-light text-sm">{{ form.non_field_errors }}</span>
             </div>
-        </form>
+            {% for field in form %}
+                <div>
+                    <label class="text-sm text-gray-800 p-0.5 w-fit" for="{{ field.id_for_label }}">{{ field.html_name | title }}</label>
+                    <input type="{{ field.field.widget.attrs.input_type }}" name="{{ field.html_name }}" id="" placeholder="{{ field.html_name | title }}" 
+                    class="p-1.5 rounded-lg w-full outline placeholder:text-gray-500 outline-0 bg-slate-50">
+                    {% comment %} <p>{{ field.field.widget.attrs.input_type }}</p>
+                    {% for item in field.field.widget.attrs %}
+                        <li>{{ item }}</li>
+                    {% endfor %} {% endcomment %}
+                    {% comment %} {{ field }} {% endcomment %}
+                    {% comment %} {% if field.name == 'password' %}
+                        <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}" placeholder="{{ form.password.label }}" class="p-1.5 rounded-lg w-full">
+                    {% else %}
+                        <input type="text" name="{{ field.html_name }}" id="" placeholder="{{ field.html_name | title }}" class="p-1.5 rounded-lg w-full">
+                    {% endif %} {% endcomment %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <li class="text-sm text-red-500">{{ error|escape }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="flex flex-col items-center">
+              <button type="submit" class=" mt-2 mb-2 w-fit items-center justify-center rounded-full bg-gray-900  hover:bg-gray-800 px-5 py-1.5 font-semibold text-white">Login</button>
+              <span class="cursor-pointer text-sm text-gray-700 hover:text-blue-600"><a href="{% url 'register' %}">Don't have an account ?</a></span>
+            </div>
+          </form>
+        </div>
     </div>
 {% endblock content %}

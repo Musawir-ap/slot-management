@@ -12,13 +12,13 @@ class PurposeAdmin(admin.ModelAdmin):
     def response_change(self, request, obj):
         if obj.is_default:
             messages.warning(request, "Sorry, you can't change the 'Other' purpose.")
-            return HttpResponseRedirect(reverse('admin:slot_purpose_changelist'))
+            return HttpResponseRedirect(reverse('admin:tokenapp_purpose_changelist'))
         return super().response_change(request, obj)
 
     def response_delete(self, request, obj_display, obj_id):
         if Purpose.objects.filter(pk=obj_id, is_default=True).exists():
             messages.warning(request, "Sorry, you can't delete the 'Other' purpose.")
-            return HttpResponseRedirect(reverse('admin:slot_purpose_changelist'))
+            return HttpResponseRedirect(reverse('admin:tokenapp_purpose_changelist'))
         return super().response_delete(request, obj_display, obj_id)
     
     def custom_delete_action(self, request, queryset):

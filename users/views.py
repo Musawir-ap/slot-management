@@ -3,8 +3,8 @@ from .models import Role, SubRole, CustomUser
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm#, ProfileUpdateForm
-
+from .forms import MyAuthForm, CustomUserCreationForm
+from django.contrib.auth.views import LoginView
 
 def home(request):
     return render(request, 'users/home.html')
@@ -18,16 +18,25 @@ def get_subroles(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data['username']
             messages.success(request, f'{username} registered :)')
             return redirect('login')
     else:
-        form = UserRegisterForm()
+        form = CustomUserCreationForm()
         
     return render(request, 'users/register.html', {'form': form})
+
+class CustomLoginView(LoginView):
+    authentication_form = MyAuthForm
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        messages.success(self.request, f"{username} logged in  successfully :)")
+        return super().form_valid(form)
+    
+    
 
 # @login_required
 # def profile(request):
