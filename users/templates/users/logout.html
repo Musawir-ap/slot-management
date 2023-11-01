@@ -1,9 +1,9 @@
 {% extends "client/base.html" %}
 {% block content %}
-    <h2>logged out :(</h2>
-    <div>
-        <small>
-            <a href={% url 'login' %}>Login</a> again
-        </small>
+<div class="flex items-center justify-center">
+    <div class="flex max-w-fit flex-col items-center justify-center space-y-2 px-6 py-6  md:w-fit">
+      <h1 class="w-fit text-2xl font-medium text-gray-800">You are logged out!</h1>
+    <span class="cursor-pointer text-base text-gray-700 hover:text-blue-600"><a href="{% url 'login' %}">Login again</a></span>
     </div>
+</div>
 {% endblock content %}
