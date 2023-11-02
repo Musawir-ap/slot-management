@@ -1,9 +1,13 @@
 {% extends "client/base.html" %}
 {% block content %}
     {% if user.is_authenticated %}
-        <h1 class="text-xl ">My Tokens</h1>
-        {% for token in tokens %}
-            <li class="text-sm text-slate-900">{{token}}</li>
-        {% endfor %}
+    <div class="flex">
+        <div class="flex w-full flex-col max-h-fit bg-white rounded-2xl px-6 py-6 outline outline-0 md:w-full">
+            <h1 class="w-fit text-xl font-medium text-gray-800">My Tokens</h1>
+            {% for token in tokens %}
+                <li class="text-sm text-slate-900">{{token.id}} - {{token.purpose}}</li>
+            {% endfor %}
+        </div>
+    </div>
     {% endif %}
 {% endblock content %}

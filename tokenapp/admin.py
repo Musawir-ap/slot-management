@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Purpose, Token
+from .models import Purpose, Token, Status
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -43,6 +43,11 @@ admin.site.register(Purpose, PurposeAdmin)
 
 
 class TokenAdmin(admin.ModelAdmin):
-    list_display = ('id', 'token_date', 'token_time', 'purpose', 'is_completed')
+    list_display = ('id', 'token_date', 'token_time', 'purpose')
     
 admin.site.register(Token, TokenAdmin)
+
+class StatusAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+    
+admin.site.register(Status, StatusAdmin)

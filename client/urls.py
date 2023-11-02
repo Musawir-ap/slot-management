@@ -12,7 +12,7 @@ from . import views
 app_name = 'client'
 
 urlpatterns = [
-    path('', TokenListView.as_view(), name='client-token-home'),
+    path('', UserTokenListView.as_view(), name='client-token-home'),
     path('token/<int:pk>/', TokenDetailView.as_view(), name='client-token-detail'),
     path('token/new/', TokenCreateView.as_view(), name='client-token-create'),
     path('token/<int:pk>/update/', TokenUpdateView.as_view(), name='client-token-update'),

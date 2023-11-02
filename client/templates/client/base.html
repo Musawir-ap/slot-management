@@ -152,7 +152,7 @@ module.exports = {
         </div>
         <div class="flex items-center justify-end  space-x-3">
             {% if user.is_authenticated %}
-                <a class="cursor-pointer">{{ user.username }}</a>
+                <a class="cursor-pointer font-medium">{{ user.username | title }}</a>
                 <img src="{{ user.baseprofile.image.url }}" alt="Your Name" class="cursor-pointer w-6 h-6 ml-2 rounded-full">
             {% else %}  
                 <a href="{% url 'login' %}" class="outline outline-1 hover:outline-gray-800 outline-gray-900 text-sm px-4 py-1.5 rounded-full hover:bg-gray-100 transition-colors duration-100">Login</a>
