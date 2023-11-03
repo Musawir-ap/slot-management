@@ -43,7 +43,8 @@ admin.site.register(Purpose, PurposeAdmin)
 
 
 class TokenAdmin(admin.ModelAdmin):
-    list_display = ('id', 'token_date', 'token_time', 'purpose')
+    list_display = ('id', 'token_date', 'token_time', 'purpose', 'status_id')
+    # fields = ('token_date', 'token_time', 'purpose','status',)
     
 admin.site.register(Token, TokenAdmin)
 

@@ -5,7 +5,7 @@ from tokenapp.models import Status
 
 
 def populate_status(apps, schema_editor):
-    initial_statuses = ['Booked', 'Pending', 'Payed', 'Completed', 'Rejected', 'Payment Pending']
+    initial_statuses = ['Booked', 'Pending', 'Paid', 'Completed', 'Rejected', 'Payment Pending']
     for status in initial_statuses:
         Status.objects.get_or_create(name=status)
 
