@@ -1,5 +1,6 @@
 from django import forms
-from .models import Token
+from django.forms import widgets
+from .models import Token, Purpose
 
 
 class TokenForm(forms.ModelForm):
@@ -7,8 +8,8 @@ class TokenForm(forms.ModelForm):
         model = Token
         fields = ['token_time', 'token_date', 'purpose', 'description']
         widgets = {
-            'token_date': forms.DateInput(attrs={'type': 'date', "name": 'date'}),
-            'token_time': forms.TimeInput(attrs={'type': 'time', "name": 'time'}),
-            # 'purpose': forms.ChoiceField(),
-            'description': forms.Textarea(attrs={'input': 'textarea', "name": 'description'}),
+            'token_date': forms.DateInput(attrs={'input_type': 'date', "placeholder": 'date'}),
+            'token_time': forms.TimeInput(attrs={'input_type': 'time', "placeholder": 'time'}),
+            'purpose': forms.Select(choices=[(purpose.id, purpose.name) for purpose in Purpose.objects.all()], ),
+            'description': forms.Textarea(attrs={"placeholder": 'description'}),
         }

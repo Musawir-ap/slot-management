@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "tailwindcss -i client/static/client/input.css -o staic/client/output.css --watch"
+    "dev": "tailwindcss -i client/static/client/input.css -o client/static/client/output.css --watch"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.6",

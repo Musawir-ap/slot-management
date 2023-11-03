@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from tokenapp.models import Token
@@ -22,7 +23,7 @@ class TokenListView(ListView):
 
 class UserTokenListView(ListView):
     model = Token
-    template_name = 'token/user_home.html'
+    template_name = 'client/home.html'
     context_object_name = 'tokens'
     ordering = ['token_time']
     paginate_by = 10
@@ -36,13 +37,15 @@ class TokenDetailView(DetailView):
     model = Token
     
 
-class TokenCreateView(LoginRequiredMixin, CreateView,):
+class TokenCreateView(LoginRequiredMixin, CreateView):
     model = Token
     form_class = TokenForm
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
+    
+    def get_success_url(self):
+        return reverse_lazy('client:client-token-home')
 
 class TokenUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView,):
     model = Token

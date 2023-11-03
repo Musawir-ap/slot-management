@@ -19,6 +19,52 @@ module.exports = {
         '9': '2.25rem',
         '10': '2.5rem',
       },
+      colors:{
+        booked: {
+          bg: 'rgba(16, 132, 239, 0.15)',
+          text: 'rgba(16, 132, 239, 1)',
+        },
+        pending: {
+          bg: 'rgba(231, 231, 233, 1)',
+          text: 'rgba(75, 79, 94, 1)',
+        },
+        rejected: {
+          bg: 'rgba(240, 68, 56, 0.15)',
+          text: 'rgba(240, 68, 56, 1)',
+        },
+        cancelled: {
+          bg: 'rgba(240, 68, 56, 0.15)',
+          text: 'rgba(240, 68, 56, 1)',
+        },
+        completed: {
+          bg: '',
+          text: '',
+        },
+        paid: {
+          bg: '',
+          text: '',
+        },
+        cancelled: {
+          bg: '',
+          text: '',
+        },
+        cancelled: {
+          bg: '',
+          text: '',
+        },
+        cancelled: {
+          bg: '',
+          text: '',
+        },
+        cancelled: {
+          bg: '',
+          text: '',
+        },
+        cancelled: {
+          bg: '',
+          text: '',
+        },
+      }
     },
     fontFamily: {
       // 'sans': ['ui-sans-serif', 'system-ui'],
