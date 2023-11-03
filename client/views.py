@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from tokenapp.models import Token
-from tokenapp.forms import TokenForm
+# from tokenapp.forms import TokenForm
 from django.views.generic import (
     ListView, 
     DetailView, 
@@ -39,7 +39,7 @@ class TokenDetailView(DetailView):
 
 class TokenCreateView(LoginRequiredMixin, CreateView):
     model = Token
-    form_class = TokenForm
+    # form_class = TokenForm
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -49,7 +49,7 @@ class TokenCreateView(LoginRequiredMixin, CreateView):
 
 class TokenUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView,):
     model = Token
-    form_class = TokenForm
+    # form_class = TokenForm
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -73,3 +73,6 @@ class TokenDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'token/about.html')
+
+
+

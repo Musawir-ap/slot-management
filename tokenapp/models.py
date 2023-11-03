@@ -5,7 +5,7 @@ from users.models import CustomUser
 from django.urls import reverse
 
 
-class Purpose(models.Model):
+class Service(models.Model):
     name = models.CharField(max_length=255, unique=True)
     code = models.CharField(max_length=10, null=True)
     is_default = models.BooleanField(default=False)
@@ -15,14 +15,14 @@ class Purpose(models.Model):
             self.is_default = True
             self.code = 'OTH'
         if self.is_default:
-            if Purpose.objects.filter(name='Other', code='OTH').exists():   
+            if Service.objects.filter(name='Other', code='OTH').exists():   
                 return 
-        super(Purpose, self).save(*args, **kwargs)
+        super(Service, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         if self.is_default and self.name == 'Other' and self.code == 'OTH':
             return
-        super(Purpose, self).delete(*args, **kwargs)
+        super(Service, self).delete(*args, **kwargs)
     
     def __str__(self) -> str:
         return self.name
@@ -42,8 +42,8 @@ class StatusHistory(models.Model):
 class Token(models.Model):
     token_date = models.DateField(default=timezone.now)
     token_time = models.TimeField(default=timezone.now)
-    purpose = models.ForeignKey(Purpose, on_delete=models.SET_NULL, null=True, blank=True, related_name='tokens_for_purpose')
-    _purpose = models.CharField(max_length=255, null=True, blank=True)
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, related_name='tokens_for_service')
+    _service = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True)
     is_booked = models.BooleanField(default=False)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='tokens_created_by_user')
@@ -55,7 +55,7 @@ class Token(models.Model):
 
             
     def get_token(self):
-        return f'token {self.pk} for {self.Purpose if self.Purpose else self._Purpose}'
+        return f'token {self.pk} for {self.Service if self.Service else self._Service}'
     
     def __str__(self):
         return f'{self.pk}'

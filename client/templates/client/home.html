@@ -6,7 +6,7 @@
             <h1 class="w-fit text-xl font-medium text-gray-800">My Tokens</h1>
             {% for token in tokens %}
             <div class="flex flex-row space-x-5 text-sm font-normal items-center">
-                <p class=" text-slate-900">{{ token.id }} - {{ token.purpose }}</p>
+                <p class=" text-slate-900">{{ token.id }} - {{ token.service }}</p>
                 <p class="text-{{ token.status_id | lower }}-text bg-{{ token.status_id | lower }}-bg py-1 px-4 rounded-lg w-fit">{{ token.status_id}}</p>
                 {% comment %} <p class="text-booked-text bg-booked-bg py-1 px-4 rounded-lg w-fit">{{ token.status_id}}</p> {% endcomment %}
             </div>

@@ -30,7 +30,7 @@
         {% for field in form %}
             <div>
                 <label class="text-sm text-gray-800 p-0.5 w-fit" for="{{ field.id_for_label }}">{{ field.field.widget.attrs.placeholder|default:field.html_name|title }}</label>
-                    {% if field.html_name == 'purpose' %}
+                    {% if field.html_name == 'service' %}
                         <select  name="{{ field.html_name }}" id="" placeholder="{{ field.field.widget.attrs.placeholder|default:field.html_name|title }}" class="p-1.5 rounded-lg w-full outline placeholder:text-gray-500 outline-0 bg-slate-50 ">
                             {% for id, name in field.field.choices %}
                             <option value="{{ id }}">{{name | title }}</option>
