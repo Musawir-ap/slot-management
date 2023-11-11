@@ -12,13 +12,13 @@ class ServiceAdmin(admin.ModelAdmin):
     def response_change(self, request, obj):
         if obj.is_default:
             messages.warning(request, "Sorry, you can't change the 'Other' service.")
-            return HttpResponseRedirect(reverse('admin:tokenapp_service_changelist'))
+            return HttpResponseRedirect(reverse('admin:tokenappcusotm_service_changelist'))
         return super().response_change(request, obj)
 
     def response_delete(self, request, obj_display, obj_id):
         if Service.objects.filter(pk=obj_id, is_default=True).exists():
             messages.warning(request, "Sorry, you can't delete the 'Other' service.")
-            return HttpResponseRedirect(reverse('admin:tokenapp_service_changelist'))
+            return HttpResponseRedirect(reverse('admin:tokenappcusotm_service_changelist'))
         return super().response_delete(request, obj_display, obj_id)
     
     def custom_delete_action(self, request, queryset):
@@ -43,7 +43,7 @@ admin.site.register(Service, ServiceAdmin)
 
 
 class TokenAdmin(admin.ModelAdmin):
-    list_display = ('id', 'token_date', 'token_time', 'service', 'status_id')
+    list_display = ('id', 'token_date', 'token_time', 'service', 'status_id', 'user')
     # fields = ('token_date', 'token_time', 'service','status',)
     
 admin.site.register(Token, TokenAdmin)

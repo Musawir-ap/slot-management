@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .scrollbar::-webkit-scrollbar {
+      width: 15px;
+      height: 15px;
+    }
+  
+    .scrollbar::-webkit-scrollbar-track {
+      border-radius: 100vh;
+      background: #f7f4ed;
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb {
+      background: rgb(207, 207, 207);
+      border-radius: 100vh;
+      border: 3px solid #f6f7ed;
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #c4c4c4;
+    }
+  }
+
+  .dataTables_paginate {
+    @apply flex justify-end space-x-3 items-center mt-4 text-sm font-normal
+  }
+
+  .dataTables_paginate .paginate_button {
+    @apply  bg-slate-200 text-slate-900 rounded px-2 py-1 mx-1 outline outline-none;
+  }
+  
+  .dataTables_paginate .paginate_button.current {
+    @apply bg-slate-900 text-white font-semibold text-base
+  }
+
+  .dataTables_wrapper {
+    @apply text-sm font-light
+  }
+  .dataTables_wrapper .dataTables_length {
+    @apply float-left mb-3 py-1
+  }
+  .dataTables_wrapper .dataTables_filter {
+    @apply float-right text-right mb-3
+  }
+  .dataTables_wrapper .dataTables_filter input[type="search"] {
+  @apply bg-slate-100 text-gray-700 ml-3 px-2 py-1 rounded-lg;
+}
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  cursor: pointer;
+}

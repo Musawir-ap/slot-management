@@ -6,7 +6,7 @@ from django.urls import reverse
 
 
 class Service(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, primary_key=True)
     code = models.CharField(max_length=10, null=True)
     is_default = models.BooleanField(default=False)
     
@@ -43,7 +43,7 @@ class Token(models.Model):
     token_date = models.DateField(default=timezone.now)
     token_time = models.TimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, related_name='tokens_for_service')
-    _service = models.CharField(max_length=255, null=True, blank=True)
+    custom_service = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True)
     is_booked = models.BooleanField(default=False)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='tokens_created_by_user')

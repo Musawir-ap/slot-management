@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UsernameField
-from .models import CustomUser, Role
+from django.contrib.auth.forms import UserCreationForm, UsernameField, UserChangeForm
+from .models import CustomUser, Role, BaseProfile
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import password_validation
@@ -40,17 +40,27 @@ class CustomUserCreationForm(UserCreationForm):
         return user
 
 
-class UserUpdateForm(forms.ModelForm):
+class UserUpdateForm(UserChangeForm):
     email = forms.EmailField()
-    
-    class Meta:
+
+    class Meta(UserChangeForm.Meta):
         model = CustomUser
         fields = ['username', 'email']
+        field_classes = {"username": UsernameField}
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('password')
         
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        queryset = CustomUser.objects.exclude(pk=self.instance.pk)
+
+        if queryset.filter(username__iexact=username).exists():
+            raise forms.ValidationError('This username is already in use. Please choose a different one.')
+
+        return username
+
 
 class UserCreationAdimForm(UserCreationForm):
     class Meta:
@@ -72,3 +82,23 @@ class MyAuthForm(AuthenticationForm):
         'inactive': _("This account is inactive."),
     }
     
+    
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = BaseProfile
+        # fields = ['image', 'address', 'mobile_number', 'birth_date']
+        fields = ['image', 'birth_date', 'address', 'pincode', 'mobile_number']
+        widgets = {
+            'birth_date': forms.DateInput(attrs={'input_type': 'date', "placeholder": 'birth date'}),
+            'mobile_number': forms.TextInput(attrs={'input_type': 'text',"placeholder": 'mobile nubmer'}),
+            'pincode': forms.NumberInput(attrs={'input_type': 'number',"placeholder": 'pincode'}),
+            # 'address': forms.NumberInput(attrs={'input_type': 'textarea',"placeholder": 'pincode'}),
+        }
+    
+    input_formats = {
+            'birth_date': ['%Y-%m-%d'],     
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['birth_date'].widget.format = '%Y-%m-%d'
+

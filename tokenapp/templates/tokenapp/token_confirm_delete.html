@@ -1,0 +1,17 @@
+{% extends "client/base.html" %}
+{% block content %}
+    <div class="flex">
+        <div class="flex w-full flex-col max-h-fit bg-white rounded-2xl px-6 py-6 outline outline-0 space-y-1.5 md:w-full">
+            <form action="">
+                <div class="flex flex-col align-middle justify-center items-center">
+                    <h1 class="w-fit text-2xl font-medium text-gray-800">Delete Token {{ object.id }} for {{ object.service }}!</h1>
+                    <p class="w-fit text-base font-medium text-gray-600">Are you sure?</p>
+                    <div class="flex flex-row space-x-6 mt-5 text-base font-medium">
+                        <a class="py-1  px-4   text-gray-800 rounded-lg cursor-pointer outline outline-1 hover:bg-gray-200" href="{% url 'client:token-detail' object.id %}">Cancel</a>
+                        <button class="py-1  px-4   text-white rounded-lg cursor-pointer outline outline-1 bg-gray-800 hover:bg-gray-700" type="submit">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

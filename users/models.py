@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
 from django.core.validators import RegexValidator
 from PIL import Image
+from django.core.files.base import ContentFile
+from io import BytesIO
 import uuid
 
 
@@ -84,11 +86,11 @@ class CustomUser(AbstractUser):
 
 class BaseProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, editable=False)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics', max_length=255)
     birth_date = models.DateField(null=True, blank=True)
     address = models.TextField(max_length=250, null=True, blank=True)
     pincode = models.IntegerField(null=True, blank=True)
-    mobile_number = models.CharField(null=True, max_length=15, validators=[RegexValidator(regex='^\+?1?\d{9,15}$', message='enter valid mobile number')])
+    mobile_number = models.CharField(null=True, blank=True, max_length=15, validators=[RegexValidator(regex='^\+?1?\d{9,15}$', message='enter valid mobile number')])
     date_joined = models.DateField(auto_now_add=True)
 
     
@@ -99,10 +101,37 @@ class BaseProfile(models.Model):
         super(BaseProfile, self).save(*args, **kwargs)
         
         img = Image.open(self.image.path)
-        if img.width > 200:
-            output_size = (200, 200)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+        width, height = img.size
+        if width > 300 and height > 300:
+            # keep ratio but shrink down
+            img.thumbnail((width, height))
+
+        # check which one is smaller
+        if height < width:
+            # make square by cutting off equal amounts left and right
+            left = (width - height) / 2
+            right = (width + height) / 2
+            top = 0
+            bottom = height
+            img = img.crop((left, top, right, bottom))
+
+        elif width < height:
+            # make square by cutting off bottom
+            left = 0
+            right = width
+            top = 0
+            bottom = width
+            img = img.crop((left, top, right, bottom))
+
+        if width > 300 and height > 300:
+            img.thumbnail((300, 300))
+
+        buffer = BytesIO()
+        img.save(buffer, format='JPEG')  # Change the format if your images are in a different format
+        content_file = ContentFile(buffer.getvalue())
+        self.image.save(self.image.name, content_file, save=False)
+
+        super(BaseProfile, self).save(*args, **kwargs)
 
         
     # class Meta:

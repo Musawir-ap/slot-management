@@ -3,7 +3,7 @@
 <div class="flex items-center justify-center">
     <div class="flex max-w-fit flex-col items-center justify-center space-y-2 px-6 py-6  md:w-fit">
       <h1 class="w-fit text-2xl font-medium text-gray-800">You are logged out!</h1>
-    <span class="cursor-pointer text-base text-gray-700 hover:text-blue-600"><a href="{% url 'login' %}">Login again</a></span>
+    <a class="cursor-pointer text-base text-gray-700 hover:text-blue-600" href="{% url 'login' %}">Login again</a>
     </div>
 </div>
 {% endblock content %}

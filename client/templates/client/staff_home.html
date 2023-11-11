@@ -1,0 +1,6 @@
+{% extends "client/home.html" %}
+{% block content %}
+    {% if user.role.name == 'STAFF' %}
+        {{ block.super }}
+    {% endif %}
+{% endblock content %}
