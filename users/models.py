@@ -90,7 +90,13 @@ class BaseProfile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     address = models.TextField(max_length=250, null=True, blank=True)
     pincode = models.IntegerField(null=True, blank=True)
-    mobile_number = models.CharField(null=True, blank=True, max_length=15, validators=[RegexValidator(regex='^\+?1?\d{9,15}$', message='enter valid mobile number')])
+    # mobile_number = models.CharField(null=True, blank=True, max_length=15, validators=[RegexValidator(regex='^\+?1?\d{9,15}$', message='enter valid mobile number')])
+    mobile_number = models.CharField(
+        null=True,
+        blank=True,
+        max_length=15,
+        validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message='Enter a valid mobile number')]
+    )
     date_joined = models.DateField(auto_now_add=True)
 
     
@@ -98,7 +104,7 @@ class BaseProfile(models.Model):
         return f"{self.user.username}'s Profile"
 
     def save(self, *args, **kwargs):
-        super(BaseProfile, self).save(*args, **kwargs)
+        # super(BaseProfile, self).save(*args, **kwargs)
         
         img = Image.open(self.image.path)
         width, height = img.size

@@ -4,7 +4,7 @@ import uuid
 
 
 class StaffProfile(BaseProfile):
-    staff_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    staff_id = models.UUIDField(default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=25)
     qualifications = models.TextField(max_length=200, null=True, blank=True)
     
