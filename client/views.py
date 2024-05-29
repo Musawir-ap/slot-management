@@ -16,6 +16,12 @@ from django.views.generic import (
     DeleteView,
     TemplateView,
 )
+from PIL import Image
+from django.core.files.base import ContentFile
+from io import BytesIO
+import uuid
+from django.utils.text import slugify
+from django.core.files.storage import FileSystemStorage
 
 
 class TokenListView(ListView):
@@ -186,6 +192,37 @@ class ClientProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
     
     def form_valid(self, form):
         form.instance.user = self.request.user
+        self.object = form.save(commit=False)
+        if 'image' in self.request.FILES: 
+            img = Image.open(self.request.FILES['image'])
+            width, height = img.size
+            if width > 300 and height > 300:
+                img.thumbnail((width, height))
+
+            if height < width:
+                left = (width - height) / 2
+                right = (width + height) / 2
+                top = 0
+                bottom = height
+                img = img.crop((left, top, right, bottom))
+
+            elif width < height:
+                left = 0
+                right = width
+                top = 0
+                bottom = width
+                img = img.crop((left, top, right, bottom))
+
+            if width > 300 and height > 300:
+                img.thumbnail((300, 300))
+
+            buffer = BytesIO()
+            uid = str(uuid.uuid4())[:8]
+            filename = f"{slugify(self.request.user.username)}_{uid}.jpeg"
+            img.save(buffer, format='JPEG')
+            form.instance.image = ContentFile(buffer.getvalue(), filename)
+            # form.instance.image.save(filename, ContentFile(buffer.getvalue(), filename), save=False)
+            
         messages.success(self.request, "Profile updated successfully")
         return super().form_valid(form)
     

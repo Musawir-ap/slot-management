@@ -103,41 +103,42 @@ class BaseProfile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
-    def save(self, *args, **kwargs):
-        # super(BaseProfile, self).save(*args, **kwargs)
-        
-        img = Image.open(self.image.path)
-        width, height = img.size
-        if width > 300 and height > 300:
-            # keep ratio but shrink down
-            img.thumbnail((width, height))
+        # def save(self, *args, **kwargs):
+        #     # super(BaseProfile, self).save(*args, **kwargs)
+        #     # super().save()
+            
+        #     img = Image.open(self.image.path)
+        #     width, height = img.size
+        #     if width > 300 and height > 300:
+        #         # keep ratio but shrink down
+        #         img.thumbnail((width, height))
 
-        # check which one is smaller
-        if height < width:
-            # make square by cutting off equal amounts left and right
-            left = (width - height) / 2
-            right = (width + height) / 2
-            top = 0
-            bottom = height
-            img = img.crop((left, top, right, bottom))
+        #     # check which one is smaller
+        #     if height < width:
+        #         # make square by cutting off equal amounts left and right
+        #         left = (width - height) / 2
+        #         right = (width + height) / 2
+        #         top = 0
+        #         bottom = height
+        #         img = img.crop((left, top, right, bottom))
 
-        elif width < height:
-            # make square by cutting off bottom
-            left = 0
-            right = width
-            top = 0
-            bottom = width
-            img = img.crop((left, top, right, bottom))
+        #     elif width < height:
+        #         # make square by cutting off bottom
+        #         left = 0
+        #         right = width
+        #         top = 0
+        #         bottom = width
+        #         img = img.crop((left, top, right, bottom))
 
-        if width > 300 and height > 300:
-            img.thumbnail((300, 300))
+        #     if width > 300 and height > 300:
+        #         img.thumbnail((300, 300))
 
-        buffer = BytesIO()
-        img.save(buffer, format='JPEG')  # Change the format if your images are in a different format
-        content_file = ContentFile(buffer.getvalue())
-        self.image.save(self.image.name, content_file, save=False)
+        #     buffer = BytesIO()
+        #     img.save(buffer, format='JPEG')  # Change the format if your images are in a different format
+        #     content_file = ContentFile(buffer.getvalue())
+        #     self.image.save(self.image.name, content_file, save=False)
 
-        super(BaseProfile, self).save(*args, **kwargs)
+        #     super(BaseProfile, self).save(*args, **kwargs)
 
         
     # class Meta:
